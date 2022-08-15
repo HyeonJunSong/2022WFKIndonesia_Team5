@@ -1,5 +1,72 @@
 #include "traffic_light.h"
 
+light lightRoad;
+light lightSide;
+traffic trafficStatus;
+
+unsigned long timeStamp;
+
+void trafficLightSetup(){
+  lightRoad = green;
+  lightSide = red;
+  trafficStatus = roadGreen;
+  timeStamp = millis();
+}
+
+
+void trafficLightLoop(){
+  switch (trafficStatus){
+    case coolTime:
+      if(millis() - timeStamp > CoolTime){
+        trafficStatus = roadGreen;
+        timeStamp = millis();
+      }
+      break;
+      
+    case roadGreen:
+      if(ifPassengerExist()){
+        trafficStatus = roadYellow;
+        timeStamp = millis();
+
+        toYel_Road();
+      }
+      break;
+      
+    case roadYellow:
+      if(millis() - timeStamp > RoadYellowTime){
+        trafficStatus = sideGreen;
+        timeStamp = millis();
+
+        toRed_Road();
+        toGre_Side();
+      }
+      break;
+      
+    case sideGreen:
+      if(millis() - timeStamp > SideGreenTime){
+        trafficStatus = sideFlick;
+        timeStamp = millis();
+      }
+      break;
+    case sideFlick:
+      if(millis() - timeStamp > SideGreenFlickTime){
+        trafficStatus = coolTime;
+        timeStamp = millis();
+
+        toGre_Road();
+        toRed_Side();
+      }
+
+      if((millis() - timeStamp) % (SideGreenFlickCycle * 2) > SideGreenFlickCycle){
+        toGre_Side();
+      }
+      else{
+        toOff_Side();
+      }
+      break;
+  }
+}
+
 void toRed_Road(){
   digitalWrite(trafficRedRoad,HIGH);
   digitalWrite(trafficGreRoad,LOW);
@@ -30,34 +97,23 @@ void toGre_Side(){
   digitalWrite(trafficYelSide,LOW);
 }
 
-void toYel_Side(){
+void toOff_Side(){
   digitalWrite(trafficRedSide,LOW);
   digitalWrite(trafficGreSide,LOW);
-  digitalWrite(trafficYelSide,HIGH);
+  digitalWrite(trafficYelSide,LOW);
 }
 
-light lightRoad;
-void trafficLightSetup(){
-  lightRoad = green;
-}
+bool ifPassengerExist(){
+  digitalWrite(trigPin,LOW);
+  digitalWrite(echoPin,LOW);    //INPUT 핀이어도 센서를 끄는 의미로 write가능
+  delayMicroseconds(2);
+  digitalWrite(trigPin,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin,LOW);
+  
+  //거리 측정
+  unsigned long duration= pulseIn(echoPin,HIGH);
+  float distance=((float)(340*duration)/10000)/2;
 
-void trafficLightLoop(){
-  trafficLightLoop_Road();
-}
-
-
-void trafficLightLoop_Road(){
-  switch(lightRoad){
-    case red:
-      Serial.println("Red");
-    break;
-    
-    case green:
-      Serial.println("Green");
-    break;
-    
-    case yellow:
-      Serial.println("Yellow");
-    break;
-  }
+  return distance < DistanceStandard;
 }
