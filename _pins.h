@@ -11,6 +11,7 @@
 #define trigPin 9
 #define echoPin 10
 #define servoPin 11
+#define buttonPin 12
 
 //Analog
 //A4 : LCD_SDA
@@ -20,9 +21,13 @@ void pinModeSetup();
 
 ////
 //+ other Settings
-#define DistanceStandard 8
+#define DistanceStandard 3
 #define RoadYellowTime 5000
 #define SideGreenTime 10000
 #define SideGreenFlickTime 10000
 #define SideGreenFlickCycle 500
 #define CoolTime 5000
+
+//servo angle
+#define defaultAngle 2
+#define activeAngle 150

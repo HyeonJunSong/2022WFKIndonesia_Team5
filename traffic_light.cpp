@@ -118,7 +118,7 @@ bool ifPassengerExist(){
   //거리 측정
   unsigned long duration= pulseIn(echoPin,HIGH);
   float distance=((float)(340*duration)/10000)/2;
-  //Serial.println(distance);
+  Serial.println(distance);
   
   return distance < DistanceStandard;
 }

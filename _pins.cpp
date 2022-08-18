@@ -10,4 +10,5 @@ void pinModeSetup(){
   pinMode(trafficYelSide, OUTPUT);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
 }
