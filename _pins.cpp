@@ -8,4 +8,6 @@ void pinModeSetup(){
   pinMode(trafficRedSide, OUTPUT);  
   pinMode(trafficGreSide, OUTPUT);
   pinMode(trafficYelSide, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 }

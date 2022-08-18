@@ -11,10 +11,13 @@ void trafficLightSetup(){
   lightSide = red;
   trafficStatus = roadGreen;
   timeStamp = millis();
+  toGre_Road();
+  toRed_Side();
 }
 
 
 void trafficLightLoop(){
+  
   switch (trafficStatus){
     case coolTime:
       if(millis() - timeStamp > CoolTime){
@@ -56,12 +59,13 @@ void trafficLightLoop(){
         toGre_Road();
         toRed_Side();
       }
-
-      if((millis() - timeStamp) % (SideGreenFlickCycle * 2) > SideGreenFlickCycle){
-        toGre_Side();
-      }
       else{
-        toOff_Side();
+        if((millis() - timeStamp) % (SideGreenFlickCycle * 2) > SideGreenFlickCycle){
+          toGre_Side();
+        }
+        else{
+          toOff_Side();
+        }
       }
       break;
   }
@@ -114,6 +118,7 @@ bool ifPassengerExist(){
   //거리 측정
   unsigned long duration= pulseIn(echoPin,HIGH);
   float distance=((float)(340*duration)/10000)/2;
-
+  //Serial.println(distance);
+  
   return distance < DistanceStandard;
 }

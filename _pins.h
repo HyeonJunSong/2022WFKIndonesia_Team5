@@ -10,6 +10,7 @@
 #define trafficYelSide 8
 #define trigPin 9
 #define echoPin 10
+#define servoPin 11
 
 //Analog
 //A4 : LCD_SDA
@@ -19,7 +20,7 @@ void pinModeSetup();
 
 ////
 //+ other Settings
-#define DistanceStandard 50
+#define DistanceStandard 8
 #define RoadYellowTime 5000
 #define SideGreenTime 10000
 #define SideGreenFlickTime 10000
