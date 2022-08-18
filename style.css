@@ -1,0 +1,16 @@
+        ul {
+            list-style: none;
+        }
+
+        .button_wrap button {
+            outline: none;
+            border: none;
+            background-color: lightgray;
+            color: white;
+            padding: 1rem 2rem;
+            cursor: pointer;
+        }
+
+        .button_wrap .on {
+            background-color: green;
+        }
